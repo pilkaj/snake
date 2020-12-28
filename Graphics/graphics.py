@@ -19,21 +19,27 @@ class Graphics:
       if event.type == QUIT:
         self.running = False
 
-  def drawScreen(self):
-    self.checkEvent()
+  def drawBackground(self):
+    # Fill the background with white
+    self.screen.fill((255, 255, 255))
+  
+  def drawSnake(self):
+    # Draw a solid blue circle in the center
+    pygame.draw.circle(self.screen, (0, 0, 255), (250, 250), 75)
+
+  def drawScreen(self, snake):
+
+    self.checkEvent() # check if user pressed "close window" button
+
     if self.running:    
-      # Fill the background with white
-      self.screen.fill((255, 255, 255))
-
-      # Draw a solid blue circle in the center
-      pygame.draw.circle(self.screen, (0, 0, 255), (250, 250), 75)
-
-      # Updates the display
-      pygame.display.update()
+      self.drawBackground() #draw static background of playing area
+      self.drawSnake()
+      pygame.display.update() # Updates the display  
+      return True
 
     else:
-      # Done! Time to quit.
       pygame.quit()
+      return False
 
 
   

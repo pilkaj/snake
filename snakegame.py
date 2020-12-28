@@ -56,8 +56,11 @@ class SnakeGame:
 	"""
 	def __init__(self, mode):
 		self.mode = mode
+		self.snakeSample = Snake(3, 500, 500)
+		self.snakeSample.joints = [Joint(300,500), Joint(301,500), Joint(302,500)]
 		if self.mode == "graphical":
-			self.screen = Graphics()
+			self.screen = Graphics()			
+		self.running = True
 		
 
 	def playgame(self):
@@ -81,12 +84,12 @@ class SnakeGame:
 		Runs the game.
 		"""
 		
-		while True:
-				# if inputfromplayer:
-				# 	playerinput = # get input from player
-				# 	applyinput()
-				# dostep(snake)
-				# wait(1.0/init_speed)
-				self.screen.drawScreen()
+		while self.running:
+			# if inputfromplayer:
+			# 	playerinput = # get input from player
+			# 	applyinput()
+			# dostep(snake)
+			# wait(1.0/init_speed)
+			self.running = self.screen.drawScreen(self.snakeSample)
 		
 		return "total_length_to_return", "total_time_to_return"
