@@ -9,6 +9,8 @@ Changelog:
 v0.1 - initial version
 """
 
+from Graphics.graphics import Graphics	#visualisation of the game
+
 class Joint:
 	"""
 	Joint class
@@ -23,8 +25,6 @@ class Snake:
 	"""
 	def __init__(self, length, x, y):
 		self.length = length
-		self.posx = x
-		self.posy = y
 		self.joints = []
 		
 	def updatejoints(self, newjoint):
@@ -56,6 +56,8 @@ class SnakeGame:
 	"""
 	def __init__(self, mode):
 		self.mode = mode
+		if self.mode == "graphical":
+			self.screen = Graphics()
 		
 
 	def playgame(self):
@@ -80,9 +82,11 @@ class SnakeGame:
 		"""
 		
 		while True:
-			# if inputfromplayer:
-			# 	playerinput = # get input from player
-			# 	applyinput()
-			# dostep(snake)
-			# wait(1.0/init_speed)
-			return "total_length_to_return", "total_time_to_return"
+				# if inputfromplayer:
+				# 	playerinput = # get input from player
+				# 	applyinput()
+				# dostep(snake)
+				# wait(1.0/init_speed)
+				self.screen.drawScreen()
+		
+		return "total_length_to_return", "total_time_to_return"
