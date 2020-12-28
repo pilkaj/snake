@@ -27,19 +27,24 @@ class Graphics:
       if event.type == pygame.QUIT:
         self.running = False
 
-  def drawBackground(self):
-    # self.screen.fill((255, 255, 255)) # Fill the background with white
+  def posToPix(self, posx, posy):
+    return posx*self.rect_dimensions[0], posy*self.rect_dimensions[1]
 
-    # Draw grid
+  def drawBackground(self):
     for x in range(self.game_size[0]):
       for y in range(self.game_size[1]):
         color = self.colors.BG_DARK if ((x+y) % 2 == 0) else self.colors.BG_LIGHT
-        pygame.draw.rect(self.screen,  color, (x*self.rect_dimensions[0], y*self.rect_dimensions[1], self.rect_dimensions[0], self.rect_dimensions[1]))
+        pygame.draw.rect(self.screen,  color, (*self.posToPix(x, y), self.rect_dimensions[0], self.rect_dimensions[1])) #https://stackoverflow.com/questions/1993727/expanding-tuples-into-arguments
 
   
-  def drawSnake(self):
-    # Draw a solid blue circle in the center
-    pygame.draw.circle(self.screen, (0, 90, 30), (250, 250), 75)
+  def drawSnake(self, snake):
+    # Draw head
+    pygame.draw.rect(self.screen, self.colors.SNAKE_HEAD, (*self.posToPix(snake.joints[0].posx, snake.joints[0].posy), self.rect_dimensions[0], self.rect_dimensions[1]))
+
+    # Draw tail
+    for part in snake.joints[1:]:
+      pygame.draw.rect(self.screen, self.colors.SNAKE_TAIL, (*self.posToPix(part.posx, part.posy), self.rect_dimensions[0], self.rect_dimensions[1]))
+
 
   def drawScreen(self, snake, fruit):
 
@@ -47,7 +52,7 @@ class Graphics:
 
     if self.running:    
       self.drawBackground() #draw static background of playing area
-      self.drawSnake()
+      self.drawSnake(snake)
       pygame.display.update() # Updates the display  
       return True
 

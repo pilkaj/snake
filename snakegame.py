@@ -10,6 +10,7 @@ v0.1 - initial version
 """
 
 from Graphics.graphics import Graphics	#visualisation of the game
+import time
 
 class Joint:
 	"""
@@ -57,9 +58,9 @@ class SnakeGame:
 	def __init__(self, mode):
 		self.mode = mode
 		self.snakeSample = Snake(3, 500, 500)
-		self.snakeSample.joints = [Joint(300,500), Joint(301,500), Joint(302,500)]
+		self.snakeSample.joints = [Joint(5,8), Joint(4,8), Joint(3,8)]
 		if self.mode == "graphical":
-			self.screen = Graphics(800, 800, 16, 16)
+			self.screen = Graphics(800, 800, 16, 16)	#for some reason size 800x800 - 15x15 is displayed not properly, IDK...
 		self.running = True
 		
 
@@ -91,5 +92,10 @@ class SnakeGame:
 			# dostep(snake)
 			# wait(1.0/init_speed)
 			self.running = self.screen.drawScreen(self.snakeSample, None)
+
+			# code below is only demo to showcase working visualisation, it should be handled somehow more intelligent
+			time.sleep(1)	
+			for joint in self.snakeSample.joints:
+				joint.posx += 1
 		
 		return "total_length_to_return", "total_time_to_return"
