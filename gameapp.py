@@ -1,4 +1,4 @@
-from snakegame import SnakeGame
+from snakegame import SnakeGame #see https://www.geeksforgeeks.org/why-import-star-in-python-is-a-bad-idea/
 
 def main():
   ''' 
@@ -15,6 +15,6 @@ def main():
   print("Your snake reached length", snake_length, "in total time", game_time, "seconds.")
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  #see https://www.freecodecamp.org/news/if-name-main-python-example/
   main()
 
