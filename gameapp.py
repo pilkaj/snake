@@ -3,7 +3,7 @@
 print("This is a memory dust eraser application")
 print("Let's try to write a snake game")
 
-from snakegame import *
+from snakegame import SnakeGame
 
 ''' play snake '''
 mygame = SnakeGame("graphical")
