@@ -59,7 +59,7 @@ class SnakeGame:
 		self.snakeSample = Snake(3, 500, 500)
 		self.snakeSample.joints = [Joint(300,500), Joint(301,500), Joint(302,500)]
 		if self.mode == "graphical":
-			self.screen = Graphics()			
+			self.screen = Graphics(800, 800)			
 		self.running = True
 		
 

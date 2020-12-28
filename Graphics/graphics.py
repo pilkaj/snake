@@ -7,9 +7,9 @@ from pygame.locals import *
 
 
 class Graphics:
-  def __init__(self):
+  def __init__(self, width, height):
     pygame.init()    
-    self.screen = pygame.display.set_mode([800, 800])  # Set up the drawing window
+    self.screen = pygame.display.set_mode([width, height])  # Set up the drawing window
     self.events = []
     self.running = True
 
