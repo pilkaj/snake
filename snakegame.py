@@ -59,7 +59,7 @@ class SnakeGame:
 		self.snakeSample = Snake(3, 500, 500)
 		self.snakeSample.joints = [Joint(300,500), Joint(301,500), Joint(302,500)]
 		if self.mode == "graphical":
-			self.screen = Graphics(800, 800)			
+			self.screen = Graphics(800, 800, 16, 16)
 		self.running = True
 		
 
@@ -90,6 +90,6 @@ class SnakeGame:
 			# 	applyinput()
 			# dostep(snake)
 			# wait(1.0/init_speed)
-			self.running = self.screen.drawScreen(self.snakeSample)
+			self.running = self.screen.drawScreen(self.snakeSample, None)
 		
 		return "total_length_to_return", "total_time_to_return"
