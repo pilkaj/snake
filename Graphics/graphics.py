@@ -35,15 +35,15 @@ class Graphics:
   def drawBackground(self):
     for x in range(self.game_size[0]):
       for y in range(self.game_size[1]):
-        color = self.colors.BG_DARK if ((x+y) % 2 == 0) else self.colors.BG_LIGHT # create background grid - if sum of coordinates even, than dark color
+        color = self.colors.BG_FIELD_DARK if ((x+y) % 2 == 0) else self.colors.BG_FIELD_LIGHT # create background grid - if sum of coordinates even, than dark color
         self.drawRectangle(x, y, color)
 
   def drawSnake(self, snake):
     # Draw head
     self.drawRectangle(snake.joints[0].posx, snake.joints[0].posy, self.colors.SNAKE_HEAD)
-    # Draw tail
+    # Draw body
     for part in snake.joints[1:]:
-      self.drawRectangle(part.posx, part.posy, self.colors.SNAKE_TAIL)
+      self.drawRectangle(part.posx, part.posy, self.colors.SNAKE_BODY)
 
   def drawFruit(self, fruit):
     self.drawRectangle(fruit.posx, fruit.posy, self.colors.FRUIT)
