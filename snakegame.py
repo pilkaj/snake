@@ -57,11 +57,14 @@ class SnakeGame:
 	"""
 	def __init__(self, mode):
 		self.mode = mode
-		self.snakeSample = Snake(3, 500, 500)
-		self.snakeSample.joints = [Joint(5,8), Joint(4,8), Joint(3,8)]
 		if self.mode == "graphical":
 			self.screen = Graphics(800, 800, 16, 16)	#for some reason size 800x800 - 15x15 is displayed not properly, IDK...
 		self.running = True
+
+		# Samples only
+		self.snakeSample = Snake(3, 500, 500)
+		self.snakeSample.joints = [Joint(5,8), Joint(4,8), Joint(3,8)]
+		self.fruit = Joint(8,3)
 		
 
 	def playgame(self):
@@ -91,9 +94,9 @@ class SnakeGame:
 			# 	applyinput()
 			# dostep(snake)
 			# wait(1.0/init_speed)
-			self.running = self.screen.drawScreen(self.snakeSample, None)
+			self.running = self.screen.drawScreen(self.snakeSample, self.fruit)
 
-			# code below is only demo to showcase working visualisation, it should be handled somehow more intelligent
+			# code below is only demo to show working visualisation, it should be handled somehow more intelligent
 			time.sleep(1)	
 			for joint in self.snakeSample.joints:
 				joint.posx += 1
