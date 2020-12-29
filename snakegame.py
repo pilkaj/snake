@@ -60,11 +60,6 @@ class SnakeGame:
 		if self.mode == "graphical":
 			self.screen = Graphics(800, 800, 16, 16)	#for some reason size 800x800 - 15x15 is displayed not properly, IDK...
 		self.running = True
-
-		# Samples only
-		self.snakeSample = Snake(3, 500, 500)
-		self.snakeSample.joints = [Joint(5,8), Joint(4,8), Joint(3,8)]
-		self.fruit = Joint(8,3)
 		
 
 	def playgame(self):
@@ -87,6 +82,11 @@ class SnakeGame:
 		"""
 		Runs the game.
 		"""
+
+		# Samples only
+		self.snakeSample = Snake(3, 500, 500)
+		self.snakeSample.joints = [Joint(5,8), Joint(4,8), Joint(3,8)]
+		self.fruit = Joint(8,3)
 		
 		while self.running:
 			# if inputfromplayer:
