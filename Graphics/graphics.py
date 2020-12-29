@@ -45,26 +45,27 @@ class Graphics:
     for part in snake.joints[1:]:
       self.drawRectangle(part.posx, part.posy, self.colors.SNAKE_BODY)
 
-  def drawFruit(self, fruit):
-    self.drawRectangle(fruit.posx, fruit.posy, self.colors.FRUIT)
+  def drawFruits(self, fruits):
+    for fruit in fruits:
+      self.drawRectangle(fruit.posx, fruit.posy, self.colors.FRUIT)
 
   """
   drawScreen()
 
   Parameters:
     snake: object Snake (head is joint[0])
-    fruit: object Joint
+    fruits: list of objects Joint
 
   Return value:
     True: game is running
     False: user closed a window
   """
-  def drawScreen(self, snake, fruit):
+  def drawScreen(self, snake, fruits):
     self.checkEvent() # check if user pressed "close window" button
     if self.running:    
       self.drawBackground() #draw static background of playing area
       self.drawSnake(snake)
-      self.drawFruit(fruit)
+      self.drawFruits(fruits)
       pygame.display.update() # Updates the display  
       return True
     else:

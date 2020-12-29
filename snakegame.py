@@ -11,6 +11,7 @@ v0.1 - initial version
 
 from Graphics.graphics import Graphics	#visualisation of the game
 import time
+import random
 
 class Joint:
 	"""
@@ -60,11 +61,6 @@ class SnakeGame:
 		if self.mode == "graphical":
 			self.screen = Graphics(800, 800, 16, 16)	#for some reason size 800x800 - 15x15 is displayed not properly, IDK...
 		self.running = True
-
-		# Samples only
-		self.snakeSample = Snake(3, 500, 500)
-		self.snakeSample.joints = [Joint(5,8), Joint(4,8), Joint(3,8)]
-		self.fruit = Joint(8,3)
 		
 
 	def playgame(self):
@@ -76,17 +72,25 @@ class SnakeGame:
 
 		initial_length = 3
 		initial_speed = 3		
+		fruits_amount = 2
 
-		(total_length, total_time) = self.rungame(initial_length, initial_speed)
+		(total_length, total_time) = self.rungame(initial_length, initial_speed, fruits_amount)
 
 		print("Game finished.")
 
 		return (total_length, total_time)
 	
-	def rungame(self, init_length, init_speed):
+	def rungame(self, init_length, init_speed, fruits_no):
 		"""
 		Runs the game.
 		"""
+
+		# Samples only
+		self.snakeSample = Snake(3, 500, 500)
+		self.fruits = []
+		self.snakeSample.joints = [Joint(5,8), Joint(4,8), Joint(3,8)]
+		for i in range(fruits_no):
+			self.fruits.append(Joint(random.randrange(16), random.randrange(16)))
 		
 		while self.running:
 			# if inputfromplayer:
@@ -94,7 +98,7 @@ class SnakeGame:
 			# 	applyinput()
 			# dostep(snake)
 			# wait(1.0/init_speed)
-			self.running = self.screen.drawScreen(self.snakeSample, self.fruit)
+			self.running = self.screen.drawScreen(self.snakeSample, self.fruits)
 
 			# code below is only demo to show working visualisation, it should be handled somehow more intelligent
 			time.sleep(1)	
