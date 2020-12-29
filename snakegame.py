@@ -11,6 +11,7 @@ v0.1 - initial version
 
 from Graphics.graphics import Graphics	#visualisation of the game
 import time
+import random
 
 class Joint:
 	"""
@@ -86,8 +87,10 @@ class SnakeGame:
 
 		# Samples only
 		self.snakeSample = Snake(3, 500, 500)
+		self.fruits = []
 		self.snakeSample.joints = [Joint(5,8), Joint(4,8), Joint(3,8)]
-		self.fruit = [Joint(8,3), Joint(6,3)]
+		for i in range(fruits_no):
+			self.fruits.append(Joint(random.randrange(16), random.randrange(16)))
 		
 		while self.running:
 			# if inputfromplayer:
@@ -95,7 +98,7 @@ class SnakeGame:
 			# 	applyinput()
 			# dostep(snake)
 			# wait(1.0/init_speed)
-			self.running = self.screen.drawScreen(self.snakeSample, self.fruit)
+			self.running = self.screen.drawScreen(self.snakeSample, self.fruits)
 
 			# code below is only demo to show working visualisation, it should be handled somehow more intelligent
 			time.sleep(1)	
