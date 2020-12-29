@@ -71,14 +71,15 @@ class SnakeGame:
 
 		initial_length = 3
 		initial_speed = 3		
+		fruits_amount = 2
 
-		(total_length, total_time) = self.rungame(initial_length, initial_speed)
+		(total_length, total_time) = self.rungame(initial_length, initial_speed, fruits_amount)
 
 		print("Game finished.")
 
 		return (total_length, total_time)
 	
-	def rungame(self, init_length, init_speed):
+	def rungame(self, init_length, init_speed, fruits_no):
 		"""
 		Runs the game.
 		"""
@@ -86,7 +87,7 @@ class SnakeGame:
 		# Samples only
 		self.snakeSample = Snake(3, 500, 500)
 		self.snakeSample.joints = [Joint(5,8), Joint(4,8), Joint(3,8)]
-		self.fruit = Joint(8,3)
+		self.fruit = [Joint(8,3), Joint(6,3)]
 		
 		while self.running:
 			# if inputfromplayer:
