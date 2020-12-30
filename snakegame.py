@@ -68,7 +68,6 @@ class SnakeGame:
 		Runs the game. Allows to set up initial values.
 		Or holds space for adding menu.
 		"""
-		print("Runing new game.")
 
 		initial_length = 3
 		initial_speed = 3		
@@ -76,14 +75,13 @@ class SnakeGame:
 
 		(total_length, total_time) = self.rungame(initial_length, initial_speed, fruits_amount)
 
-		print("Game finished.")
-
 		return (total_length, total_time)
 	
 	def rungame(self, init_length, init_speed, fruits_no):
 		"""
 		Runs the game.
 		"""
+		print("Runing new game.")
 
 		# Samples only
 		self.snakeSample = Snake(3, 500, 500)
@@ -104,5 +102,7 @@ class SnakeGame:
 			time.sleep(1)	
 			for joint in self.snakeSample.joints:
 				joint.posx += 1
+		
+		print("Game finished.")
 		
 		return "total_length_to_return", "total_time_to_return"
