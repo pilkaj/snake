@@ -28,6 +28,11 @@ class Snake:
 	def __init__(self, length, x, y):
 		self.length = length
 		self.joints = []
+
+	def updateSnakePosition(self):
+		print("<updateSnakePosition>")
+		for joint in self.joints:
+			joint.posx += 1
 		
 	def updatejoints(self, newjoint):
 		"""
@@ -76,6 +81,14 @@ class SnakeGame:
 		(total_length, total_time) = self.rungame(initial_length, initial_speed, fruits_amount)
 
 		return (total_length, total_time)
+
+	def getPlayerInput(self):
+		# temporarily added some value. TODO: work on this
+		return 1
+
+	def applyPlayerInput(self, input):
+		print("<applyPlayerInput>")
+		# TODO: work on this
 	
 	def rungame(self, init_length, init_speed, fruits_no):
 		"""
@@ -89,19 +102,18 @@ class SnakeGame:
 		self.snakeSample.joints = [Joint(5,8), Joint(4,8), Joint(3,8)]
 		for i in range(fruits_no):
 			self.fruits.append(Joint(random.randrange(16), random.randrange(16)))
-		
+		speed = init_speed
+
 		while self.running:
-			# if inputfromplayer:
-			# 	playerinput = # get input from player
-			# 	applyinput()
-			# dostep(snake)
-			# wait(1.0/init_speed)
+			period = 1 / speed
+			time_stamp = time.monotonic()
+			while time.monotonic() - time_stamp < period:
+				playerInput = self.getPlayerInput()
+
+			self.applyPlayerInput(playerInput)
+			self.snakeSample.updateSnakePosition()
 			self.running = self.screen.drawScreen(self.snakeSample, self.fruits)
 
-			# code below is only demo to show working visualisation, it should be handled somehow more intelligent
-			time.sleep(1)	
-			for joint in self.snakeSample.joints:
-				joint.posx += 1
 		
 		print("Game finished.")
 		
