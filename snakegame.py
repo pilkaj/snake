@@ -32,11 +32,25 @@ class Snake:
 		self.direction = self.directionenum.RIGHT
 		self.joints = []
 
-	def updateSnakePosition(self, fruits):
+	def updateSnakePosition(self):
 		print("<updateSnakePosition>")
 		# TODO: Work on this
-		for joint in self.joints:
-			joint.posx += 1
+
+		head = self.joints[0]
+		tail = self.joints.pop()
+
+		if self.direction == Directions().UP:
+			tail.posy = head.posy - 1
+		elif self.direction == Directions().DOWN:
+			tail.posy = head.posy + 1
+		elif self.direction == Directions().LEFT:
+			tail.posx = head.posx - 1
+		elif self.direction == Directions().RIGHT:
+			tail.posx = head.posx + 1
+
+		self.joints.insert(0, tail) # inserts tail as the new head at the beginning of joints list
+
+		# self.joints.pop() # removes the tail
 		
 	def updatejoints(self, newjoint):
 		"""
@@ -83,7 +97,7 @@ class SnakeGame:
 		"""
 
 		initial_length = 3
-		initial_speed = 3		
+		initial_speed = 0.8		
 		fruits_amount = 2
 
 		(total_length, total_time) = self.rungame(initial_length, initial_speed, fruits_amount)
@@ -120,7 +134,7 @@ class SnakeGame:
 				playerInput = self.getPlayerInput()
 
 			self.applyPlayerInput(playerInput)
-			snake.updateSnakePosition(fruits)
+			snake.updateSnakePosition()
 			self.running = self.screen.drawScreen(snake, fruits)
 		
 		print("Game finished.")
