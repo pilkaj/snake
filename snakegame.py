@@ -32,7 +32,7 @@ class Snake:
 		self.direction = self.directionenum.RIGHT
 		self.joints = []
 
-	def updateSnakePosition(self):
+	def updateSnakePosition(self, fruits):
 		print("<updateSnakePosition>")
 		# TODO: Work on this
 		for joint in self.joints:
@@ -106,11 +106,11 @@ class SnakeGame:
 		print("Runing new game.")
 
 		# Samples only
-		self.snakeSample = Snake(3, 500, 500)
-		self.fruits = []
-		self.snakeSample.joints = [Joint(5,8), Joint(4,8), Joint(3,8)]
+		snake = Snake(3, 500, 500)
+		fruits = []
+		snake.joints = [Joint(5,8), Joint(4,8), Joint(3,8)]
 		for i in range(fruits_no):
-			self.fruits.append(Joint(random.randrange(16), random.randrange(16)))
+			fruits.append(Joint(random.randrange(16), random.randrange(16)))
 		speed = init_speed
 
 		while self.running:
@@ -120,8 +120,8 @@ class SnakeGame:
 				playerInput = self.getPlayerInput()
 
 			self.applyPlayerInput(playerInput)
-			self.snakeSample.updateSnakePosition()
-			self.running = self.screen.drawScreen(self.snakeSample, self.fruits)
+			snake.updateSnakePosition(fruits)
+			self.running = self.screen.drawScreen(snake, fruits)
 		
 		print("Game finished.")
 		
