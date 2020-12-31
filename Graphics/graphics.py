@@ -1,5 +1,5 @@
 import pygame
-from .colors import Colors
+from .colors import Colors  # pylint: disable=relative-beyond-top-level
 
 class Graphics:
   """
@@ -18,7 +18,7 @@ class Graphics:
     self.screen = pygame.display.set_mode([width_pixels, height_pixels])  # Set up the drawing window
     self.running = True
     self.colors = Colors()
-    pygame.init()
+    pygame.display.init()
 
   def drawRectangle(self, posx, posy, color):
     pygame.draw.rect(self.screen, color, (*self.posToPix(posx, posy), self.rect_dimensions[0], self.rect_dimensions[1])) #https://stackoverflow.com/questions/1993727/expanding-tuples-into-arguments
@@ -26,7 +26,7 @@ class Graphics:
   def checkEvent(self):
     # Did the user click the window close button?
     for event in pygame.event.get():
-      if event.type == pygame.QUIT:
+      if event.type == pygame.QUIT: # pylint: disable=no-member
         self.running = False
 
   def posToPix(self, posx, posy):
@@ -69,7 +69,7 @@ class Graphics:
       pygame.display.update() # Updates the display  
       return True
     else:
-      pygame.quit()
+      pygame.display.quit()
       return False
 
 
