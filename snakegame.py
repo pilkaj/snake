@@ -12,6 +12,8 @@ v0.1 - initial version
 from Graphics.graphics import Graphics	#visualisation of the game
 import time
 import random
+import queue
+import keyboard
 from directions import Directions
 
 class Joint:
@@ -32,6 +34,10 @@ class Snake:
 		self.direction = self.directionenum.RIGHT
 		self.joints = []
 
+	def applyPlayerInput(self, input):
+		print("<applyPlayerInput>", input)
+		# TODO: work on this
+
 	def updateSnakePosition(self, fruits):
 		print("<updateSnakePosition>")
 		# TODO: Work on this
@@ -48,7 +54,7 @@ class Snake:
 			return False
 		# for joint in self.joints:
 		# 	pass
-
+	
 	def updateDirection(self, direction):
 		print("<updateDirection>")
 		self.direction = direction
@@ -74,6 +80,12 @@ class SnakeGame:
 		if self.mode == "graphical":
 			self.screen = Graphics(800, 800, 16, 16)	#for some reason size 800x800 - 15x15 is displayed not properly, IDK...
 		self.running = True
+
+		# keyboard input variables
+		self.playerInput = queue.Queue()	# FIFO queue
+		self.lastRecordedInput = None
+		self.keyWasPressed = False
+		self.lastInputChanged = False
 		
 
 	def playgame(self):
@@ -90,14 +102,33 @@ class SnakeGame:
 
 		return (total_length, total_time)
 
-	def getPlayerInput(self):
-		# temporarily returned some value.
-		# TODO: work on this
-		return 1
+	def recordPlayerInput(self):
+		if not self.keyWasPressed:
+			self.lastInputChanged = False
+			if keyboard.is_pressed('up') and self.lastRecordedInput != Directions().UP: # if arrow 'up' is pressed 
+				self.lastRecordedInput = Directions().UP
+				self.lastInputChanged = True
+			elif keyboard.is_pressed('down') and self.lastRecordedInput != Directions().DOWN:  # if arrow 'down' is pressed 
+				self.lastRecordedInput = Directions().DOWN
+				self.lastInputChanged = True
+			elif keyboard.is_pressed('left') and self.lastRecordedInput != Directions().LEFT:  # if arrow 'left' is pressed 
+				self.lastRecordedInput = Directions().LEFT
+				self.lastInputChanged = True
+			elif keyboard.is_pressed('RIGHT') and self.lastRecordedInput != Directions().RIGHT:  # if arrow 'right' is pressed 
+				self.lastRecordedInput = Directions().RIGHT
+				self.lastInputChanged = True
 
-	def applyPlayerInput(self, input):
-		print("<applyPlayerInput>")
-		# TODO: work on this
+			if self.lastInputChanged:
+				self.keyWasPressed = True
+				self.playerInput.put(self.lastRecordedInput)
+
+	def getPlayerLastInput(self):
+		self.keyWasPressed = False	# reset flag for next loop
+		if not self.playerInput.empty():
+			return self.playerInput.get()
+		else:
+			return None
+
 	
 	def rungame(self, init_length, init_speed, fruits_no):
 		"""
@@ -109,7 +140,7 @@ class SnakeGame:
 		snake = Snake(3, 500, 500)
 		fruits = []
 		snake.joints = [Joint(5,8), Joint(4,8), Joint(3,8)]
-		for i in range(fruits_no):
+		for _ in range(fruits_no):
 			fruits.append(Joint(random.randrange(16), random.randrange(16)))
 		speed = init_speed
 
@@ -117,9 +148,12 @@ class SnakeGame:
 			period = 1 / speed
 			time_stamp = time.monotonic()
 			while time.monotonic() - time_stamp < period:
-				playerInput = self.getPlayerInput()
+				self.recordPlayerInput()
 
-			self.applyPlayerInput(playerInput)
+			key = self.getPlayerLastInput()
+			if key != None:
+				snake.applyPlayerInput(key)
+				
 			snake.updateSnakePosition(fruits)
 			self.running = self.screen.drawScreen(snake, fruits)
 		
