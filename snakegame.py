@@ -12,6 +12,7 @@ v0.1 - initial version
 from Graphics.graphics import Graphics	#visualisation of the game
 import time
 import random
+from directions import Directions
 
 class Joint:
 	"""
@@ -26,11 +27,14 @@ class Snake:
 	Snake class
 	"""
 	def __init__(self, length, x, y):
+		self.directionenum = Directions()
 		self.length = length
+		self.direction = self.directionenum.RIGHT
 		self.joints = []
 
 	def updateSnakePosition(self):
 		print("<updateSnakePosition>")
+		# TODO: Work on this
 		for joint in self.joints:
 			joint.posx += 1
 		
@@ -44,6 +48,10 @@ class Snake:
 			return False
 		# for joint in self.joints:
 		# 	pass
+
+	def updateDirection(self, direction):
+		print("<updateDirection>")
+		self.direction = direction
 			
 	def isjointdistancevalid(self, jointa, jointb):
 		print("<isjointdistancevalid>")
@@ -83,7 +91,8 @@ class SnakeGame:
 		return (total_length, total_time)
 
 	def getPlayerInput(self):
-		# temporarily added some value. TODO: work on this
+		# temporarily returned some value.
+		# TODO: work on this
 		return 1
 
 	def applyPlayerInput(self, input):
@@ -113,7 +122,6 @@ class SnakeGame:
 			self.applyPlayerInput(playerInput)
 			self.snakeSample.updateSnakePosition()
 			self.running = self.screen.drawScreen(self.snakeSample, self.fruits)
-
 		
 		print("Game finished.")
 		
