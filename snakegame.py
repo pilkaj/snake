@@ -34,7 +34,7 @@ class Snake:
 		self.direction = self.directionenum.UP
 		self.joints = []
 
-  def applyPlayerInput(self, input):
+	def applyPlayerInput(self, input):
 		print("<applyPlayerInput>", input)
 		# TODO: work on this
 
@@ -45,16 +45,16 @@ class Snake:
 		head = self.joints[0]
 		tail = self.joints.pop()
 
-		if self.direction == Directions().UP:
+		if self.direction == Directions.UP:
 			tail.posx = head.posx
 			tail.posy = head.posy - 1
-		elif self.direction == Directions().DOWN:
+		elif self.direction == Directions.DOWN:
 			tail.posx = head.posx
 			tail.posy = head.posy + 1
-		elif self.direction == Directions().LEFT:
+		elif self.direction == Directions.LEFT:
 			tail.posx = head.posx - 1
 			tail.posy = head.posy
-		elif self.direction == Directions().RIGHT:
+		elif self.direction == Directions.RIGHT:
 			tail.posx = head.posx + 1
 			tail.posy = head.posy
 
@@ -180,7 +180,7 @@ class SnakeGame:
 			if key != None:
 				snake.applyPlayerInput(key)
 				
-			snake.updateSnakePosition(fruits)
+			snake.updateSnakePosition()
 			self.running = self.screen.drawScreen(snake, fruits)
 		
 		print("Game finished.")
