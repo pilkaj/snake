@@ -17,11 +17,11 @@ class Graphics:
     self.rect_dimensions = [self.screen_size[0]/self.game_size[0], self.screen_size[1]/self.game_size[1]]
     self.screen = pygame.display.set_mode([width_pixels, height_pixels])  # Set up the drawing window
     self.running = True
-    self.colors = Colors()
+    self.colors = Colors
     pygame.display.init()
 
   def drawRectangle(self, posx, posy, color):
-    pygame.draw.rect(self.screen, color, (*self.posToPix(posx, posy), self.rect_dimensions[0], self.rect_dimensions[1])) #https://stackoverflow.com/questions/1993727/expanding-tuples-into-arguments
+    pygame.draw.rect(self.screen, color.value, (*self.posToPix(posx, posy), self.rect_dimensions[0], self.rect_dimensions[1])) #https://stackoverflow.com/questions/1993727/expanding-tuples-into-arguments
 
   def checkEvent(self):
     # Did the user click the window close button?

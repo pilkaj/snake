@@ -1,7 +1,9 @@
-class Directions:
-    def __init__(self):
-        self.UP = 0
-        self.DOWN = 1
-        self.LEFT = 2
-        self.RIGHT = 3
-        self.QUIT = 10
+# https://stackoverflow.com/questions/36932/how-can-i-represent-an-enum-in-python
+from enum import Enum
+
+class Directions(Enum):
+    UP = 0
+    DOWN = 1
+    LEFT = 2
+    RIGHT = 3
+    QUIT = 10

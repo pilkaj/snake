@@ -29,7 +29,7 @@ class Snake:
 	Snake class
 	"""
 	def __init__(self, length, x, y):
-		self.directionenum = Directions()
+		self.directionenum = Directions
 		self.length = length
 		self.direction = self.directionenum.RIGHT
 		self.joints = []
