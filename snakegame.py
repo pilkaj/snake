@@ -96,13 +96,26 @@ class SnakeGame:
 				self.keyDown[key] = True
 				self.lastRecordedInput = key
 				# add enum into playerInputsQueue
-				self.playerInputsQueue.put(key)
+				self.addToPlayerInputs(key)
 		except:
 			print("key", key, "is not being recorded")
 			
 	def key_release(self, key):
 		self.keyDown[key] = False
 		# print("Key released", key)
+
+	def addToPlayerInputs(self, key):
+		direction = None
+		if key == keyboard.Key.up:
+			direction = Directions.UP
+		elif key == keyboard.Key.down:
+			direction = Directions.DOWN
+		elif key == keyboard.Key.right:
+			direction = Directions.RIGHT
+		elif key == keyboard.Key.left:
+			direction = Directions.LEFT
+		if direction is not None:
+			self.playerInputsQueue.put(direction)
 
 	def playgame(self):
 		"""
