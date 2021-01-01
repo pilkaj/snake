@@ -36,11 +36,19 @@ class Snake:
 
 	def applyPlayerInput(self, input):
 		print("<applyPlayerInput>", input)
-		# TODO: work on this
+		if self.direction == Directions.UP and input == Directions.DOWN:
+			return
+		if self.direction == Directions.DOWN and input == Directions.UP:
+			return
+		if self.direction == Directions.RIGHT and input == Directions.LEFT:
+			return
+		if self.direction == Directions.LEFT and input == Directions.RIGHT:
+			return
+		# else input is valid and apply it
+		self.direction = input
 
 	def updateSnakePosition(self):
 		print("<updateSnakePosition>")
-		# TODO: Work on this
 
 		head = self.joints[0]
 		tail = self.joints.pop()
@@ -142,7 +150,7 @@ class SnakeGame:
 		"""
 
 		initial_length = 3
-		initial_speed = 0.8
+		initial_speed = 3
 		fruits_amount = 2
 
 		(total_length, total_time) = self.rungame(initial_length, initial_speed, fruits_amount)
@@ -172,9 +180,7 @@ class SnakeGame:
 
 		while self.running:
 			period = 1 / speed
-			time_stamp = time.monotonic()
-			while time.monotonic() - time_stamp < period:
-				pass
+			time.sleep(period)
 
 			key = self.getPlayerLastInput()
 			if key != None:
