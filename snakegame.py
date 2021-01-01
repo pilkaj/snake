@@ -13,7 +13,7 @@ from Graphics.graphics import Graphics	#visualisation of the game
 import time
 import random
 import queue
-import keyboard
+from pynput import keyboard
 from directions import Directions
 
 class Joint:
@@ -78,15 +78,31 @@ class SnakeGame:
 	def __init__(self, mode):
 		self.mode = mode
 		if self.mode == "graphical":
-			self.screen = Graphics(800, 800, 16, 16)	#for some reason size 800x800 - 15x15 is displayed not properly, IDK...
+			self.screen = Graphics(800, 800, 16, 16)	# for some reason size 800x800 - 15x15 is displayed not properly, IDK...
 		self.running = True
 
 		# keyboard input variables
-		self.playerInput = queue.Queue()	# FIFO queue
+		self.playerInputsSize = 2	# max size of queue which stores player input
+		self.playerInputsQueue = queue.Queue(self.playerInputsSize)	# FIFO queue
+		self.keyDown = {keyboard.Key.up: False, keyboard.Key.down: False, keyboard.Key.right: False, keyboard.Key.left: False}	# state of key - true = key is pressed down, false = key is released
 		self.lastRecordedInput = None
-		self.keyWasPressed = False
-		self.lastInputChanged = False
+		# Listener thread to catch key strokes
+		listener = keyboard.Listener(on_press=self.key_press, on_release=self.key_release)
+		listener.start()
 		
+	def key_press(self, key):
+		try:
+			if key != self.lastRecordedInput and not self.keyDown[key] and not self.playerInputsQueue.full():	# if key is different than last one and was pressed for the first time and queue is not full
+				self.keyDown[key] = True
+				self.lastRecordedInput = key
+				# add enum into playerInputsQueue
+				self.playerInputsQueue.put(key)
+		except:
+			print("key", key, "is not being recorded")
+			
+	def key_release(self, key):
+		self.keyDown[key] = False
+		# print("Key released", key)
 
 	def playgame(self):
 		"""
@@ -102,30 +118,9 @@ class SnakeGame:
 
 		return (total_length, total_time)
 
-	def recordPlayerInput(self):
-		if not self.keyWasPressed:
-			self.lastInputChanged = False
-			if keyboard.is_pressed('up') and self.lastRecordedInput != Directions().UP: # if arrow 'up' is pressed 
-				self.lastRecordedInput = Directions().UP
-				self.lastInputChanged = True
-			elif keyboard.is_pressed('down') and self.lastRecordedInput != Directions().DOWN:  # if arrow 'down' is pressed 
-				self.lastRecordedInput = Directions().DOWN
-				self.lastInputChanged = True
-			elif keyboard.is_pressed('left') and self.lastRecordedInput != Directions().LEFT:  # if arrow 'left' is pressed 
-				self.lastRecordedInput = Directions().LEFT
-				self.lastInputChanged = True
-			elif keyboard.is_pressed('RIGHT') and self.lastRecordedInput != Directions().RIGHT:  # if arrow 'right' is pressed 
-				self.lastRecordedInput = Directions().RIGHT
-				self.lastInputChanged = True
-
-			if self.lastInputChanged:
-				self.keyWasPressed = True
-				self.playerInput.put(self.lastRecordedInput)
-
 	def getPlayerLastInput(self):
-		self.keyWasPressed = False	# reset flag for next loop
-		if not self.playerInput.empty():
-			return self.playerInput.get()
+		if not self.playerInputsQueue.empty():
+			return self.playerInputsQueue.get()
 		else:
 			return None
 
@@ -148,7 +143,7 @@ class SnakeGame:
 			period = 1 / speed
 			time_stamp = time.monotonic()
 			while time.monotonic() - time_stamp < period:
-				self.recordPlayerInput()
+				pass
 
 			key = self.getPlayerLastInput()
 			if key != None:
