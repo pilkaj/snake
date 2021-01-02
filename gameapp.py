@@ -1,4 +1,4 @@
-from snakegame import SnakeGame #see https://www.geeksforgeeks.org/why-import-star-in-python-is-a-bad-idea/
+from .Logic.snakegame import SnakeGame #see https://www.geeksforgeeks.org/why-import-star-in-python-is-a-bad-idea/
 
 def main():
   ''' 
