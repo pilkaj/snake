@@ -68,33 +68,6 @@ class Snake:
 
 		self.joints.insert(0, tail) # inserts tail as the new head at the beginning of joints list
 
-		# self.joints.pop() # removes the tail
-		
-	def updatejoints(self, newjoint):
-		"""
-		Goes through joints list and updates its joints
-		"""
-		print("<updatejoints> ToDo")
-		if not self.isjointdistancevalid(self.joints[0], newjoint):
-			# print("updatejoints: New position is not valid. Current x, y = %d, %d. New x, y = %d, %d.", joints[0].x, joints[0].y, x, y)
-			return False
-		# for joint in self.joints:
-		# 	pass
-	
-	def updateDirection(self, direction):
-		print("<updateDirection>")
-		self.direction = direction
-			
-	def isjointdistancevalid(self, jointa, jointb):
-		print("<isjointdistancevalid>")
-		# if self.jointdistance(jointa, jointb) == 1.0:
-		# 	return True
-		return False
-		
-	def jointdistance(self, jointa, jointb):
-		print("<jointdistance> ToDo")
-		return 0.0
-
 class SnakeGame:
 	""" 
 	SnakeGame class
