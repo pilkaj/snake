@@ -10,12 +10,90 @@ v0.1 - initial version
 """
 
 from Graphics.graphics import Graphics	#visualisation of the game
-from Logic.joint import Joint
-from Logic.snake import Snake
 import time
 import random
 import queue
 from pynput import keyboard
+from directions import Directions
+
+class Joint:
+	"""
+	Joint class
+	"""
+	def __init__(self, x, y):
+		self.posx = x
+		self.posy = y
+
+class Snake:
+	"""
+	Snake class
+	"""
+	def __init__(self, length, x, y):
+		self.directionenum = Directions
+		self.length = length
+		self.direction = self.directionenum.UP
+		self.joints = []
+
+	def applyPlayerInput(self, input):
+		print("<applyPlayerInput>", input)
+		if self.direction == Directions.UP and input == Directions.DOWN:
+			return
+		if self.direction == Directions.DOWN and input == Directions.UP:
+			return
+		if self.direction == Directions.RIGHT and input == Directions.LEFT:
+			return
+		if self.direction == Directions.LEFT and input == Directions.RIGHT:
+			return
+		# else input is valid and apply it
+		self.direction = input
+
+	def updateSnakePosition(self):
+		print("<updateSnakePosition>")
+
+		head = self.joints[0]
+		tail = self.joints.pop()
+
+		if self.direction == Directions.UP:
+			tail.posx = head.posx
+			tail.posy = head.posy - 1
+		elif self.direction == Directions.DOWN:
+			tail.posx = head.posx
+			tail.posy = head.posy + 1
+		elif self.direction == Directions.LEFT:
+			tail.posx = head.posx - 1
+			tail.posy = head.posy
+		elif self.direction == Directions.RIGHT:
+			tail.posx = head.posx + 1
+			tail.posy = head.posy
+
+		self.joints.insert(0, tail) # inserts tail as the new head at the beginning of joints list
+
+		# self.joints.pop() # removes the tail
+		
+	def updatejoints(self, newjoint):
+		"""
+		Goes through joints list and updates its joints
+		"""
+		print("<updatejoints> ToDo")
+		if not self.isjointdistancevalid(self.joints[0], newjoint):
+			# print("updatejoints: New position is not valid. Current x, y = %d, %d. New x, y = %d, %d.", joints[0].x, joints[0].y, x, y)
+			return False
+		# for joint in self.joints:
+		# 	pass
+	
+	def updateDirection(self, direction):
+		print("<updateDirection>")
+		self.direction = direction
+			
+	def isjointdistancevalid(self, jointa, jointb):
+		print("<isjointdistancevalid>")
+		# if self.jointdistance(jointa, jointb) == 1.0:
+		# 	return True
+		return False
+		
+	def jointdistance(self, jointa, jointb):
+		print("<jointdistance> ToDo")
+		return 0.0
 
 class SnakeGame:
 	""" 
@@ -72,7 +150,7 @@ class SnakeGame:
 		"""
 
 		initial_length = 3
-		initial_speed = 13
+		initial_speed = 3
 		fruits_amount = 2
 
 		(total_length, total_time) = self.rungame(initial_length, initial_speed, fruits_amount)
