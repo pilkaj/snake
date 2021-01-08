@@ -1,4 +1,5 @@
 from .directions import Directions
+from copy import deepcopy
 
 class Snake:
 	"""
@@ -9,6 +10,7 @@ class Snake:
 		self.length = length
 		self.direction = self.directionenum.UP
 		self.joints = []
+		self.lastTail = None
 
 	def applyPlayerInput(self, input):
 		print("<applyPlayerInput>", input)
@@ -26,8 +28,9 @@ class Snake:
 	def updateSnakePosition(self):
 		print("<updateSnakePosition>")
 
-		head = self.joints[0]
-		tail = self.joints.pop()
+		head = self.joints[0]     # get pointer to snake head
+		tail = self.joints.pop()  # pop snake tail
+		self.lastTail = deepcopy(tail)
 
 		if self.direction == Directions.UP:
 			tail.posx = head.posx
@@ -42,7 +45,8 @@ class Snake:
 			tail.posx = head.posx + 1
 			tail.posy = head.posy
 
-		self.joints.insert(0, tail) # inserts tail as the new head at the beginning of joints list
+		self.joints.insert(0, tail) # inserts poped and updated tail as the new head at the beginning of joints list
+
 	def isInCollisionWith(self, obj_list):
 		head = self.joints[0]
 		for item in obj_list:
@@ -50,3 +54,6 @@ class Snake:
 				print("Snake <isInCollisionWith>", item.posx, item.posy)
 				return True
 		return False
+
+	def enlarge(self):
+		self.joints.append(self.lastTail)

@@ -114,6 +114,8 @@ class SnakeGame:
 
 			if snake.isInCollisionWith(snake.joints[1:]) or snake.isInCollisionWith(walls):
 				self.running = False
+			elif snake.isInCollisionWith(fruits):
+				snake.enlarge()
 
 			self.running = self.screen.drawScreen(snake, fruits)
 		
