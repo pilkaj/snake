@@ -97,6 +97,7 @@ class SnakeGame:
 		snake = Snake(3, 500, 500)
 		snake.joints = [Joint(5,8), Joint(4,8), Joint(3,8)]
 		fruits = []
+		walls = []
 		for _ in range(fruits_no):
 			fruits.append(Joint(random.randrange(16), random.randrange(16)))
 		speed = init_speed
@@ -110,6 +111,10 @@ class SnakeGame:
 				snake.applyPlayerInput(key)
 				
 			snake.updateSnakePosition()
+
+			if snake.isInCollisionWith(snake.joints[1:]) or snake.isInCollisionWith(walls):
+				self.running = False
+
 			self.running = self.screen.drawScreen(snake, fruits)
 		
 		print("Game finished.")

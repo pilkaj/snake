@@ -43,3 +43,10 @@ class Snake:
 			tail.posy = head.posy
 
 		self.joints.insert(0, tail) # inserts tail as the new head at the beginning of joints list
+	def isInCollisionWith(self, obj_list):
+		head = self.joints[0]
+		for item in obj_list:
+			if head.posx == item.posx and head.posy == item.posy:
+				print("Snake <isInCollisionWith>", item.posx, item.posy)
+				return True
+		return False
