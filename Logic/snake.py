@@ -7,7 +7,7 @@ class Snake:
 	"""
 	def __init__(self):
 		self.directionenum = Directions
-		self.direction = self.directionenum.UP
+		self.direction = self.directionenum.RIGHT
 		self.joints = []
 		self.lastTail = None
 
