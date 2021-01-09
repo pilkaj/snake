@@ -104,7 +104,9 @@ class SnakeGame:
 
 		while self.running:
 			period = 1 / speed
-			time.sleep(period)
+			time_stamp = time.monotonic()
+			while time.monotonic() - time_stamp < period:
+				pass
 
 			key = self.getPlayerLastInput()
 			if key != None:
