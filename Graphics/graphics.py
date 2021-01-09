@@ -49,6 +49,10 @@ class Graphics:
     for fruit in fruits:
       self.drawRectangle(fruit.posx, fruit.posy, self.colors.FRUIT)
 
+  def drawWalls(self, walls):
+    for wall in walls:
+      self.drawRectangle(wall.posx, wall.posy, self.colors.WALL)
+
   """
   drawScreen()
 
@@ -60,12 +64,13 @@ class Graphics:
     True: game is running
     False: user closed a window
   """
-  def drawScreen(self, snake, fruits):
+  def drawScreen(self, snake, fruits, walls):
     self.checkEvent() # check if user pressed "close window" button
     if self.running:    
       self.drawBackground() #draw static background of playing area
       self.drawSnake(snake)
       self.drawFruits(fruits)
+      self.drawWalls(walls)
       pygame.display.update() # Updates the display  
       return True
     else:

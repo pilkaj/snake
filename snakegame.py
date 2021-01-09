@@ -101,9 +101,15 @@ class SnakeGame:
 		snake = Snake()
 		snake.joints = [Joint(5,8), Joint(4,8), Joint(3,8)]
 		fruits = []
-		walls = []
 		for _ in range(fruits_no):
 			fruits.append(Joint(random.randrange(self.fieldSizeX), random.randrange(self.fieldSizeY)))
+		walls = []
+		for i in range(self.fieldSizeX):
+			walls.append(Joint(i, 0))
+			walls.append(Joint(i, self.fieldSizeY - 1))
+		for i in range(self.fieldSizeY - 2):
+			walls.append(Joint(0, i + 1))
+			walls.append(Joint(self.fieldSizeX - 1, i + 1))
 		speed = init_speed
 
 		period = 1 / speed
@@ -124,10 +130,11 @@ class SnakeGame:
 
 				if snake.isInCollisionWith(snake.joints[1:]) or snake.isInCollisionWith(walls):
 					self.running = False
+					break
 				elif snake.isInCollisionWith(fruits):
 					snake.enlarge()
 
-			self.running = self.screen.drawScreen(snake, fruits)
+			self.running = self.screen.drawScreen(snake, fruits, walls)
 		
 		print("Game finished.")
 		
