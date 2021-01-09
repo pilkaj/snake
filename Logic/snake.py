@@ -5,9 +5,8 @@ class Snake:
 	"""
 	Snake class
 	"""
-	def __init__(self, length, x, y):
+	def __init__(self):
 		self.directionenum = Directions
-		self.length = length
 		self.direction = self.directionenum.UP
 		self.joints = []
 		self.lastTail = None

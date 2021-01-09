@@ -94,7 +94,7 @@ class SnakeGame:
 		print("Runing new game.")
 
 		# Game init
-		snake = Snake(3, 500, 500)
+		snake = Snake()
 		snake.joints = [Joint(5,8), Joint(4,8), Joint(3,8)]
 		fruits = []
 		walls = []
