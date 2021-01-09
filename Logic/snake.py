@@ -49,8 +49,9 @@ class Snake:
 	def isInCollisionWith(self, obj_list):
 		head = self.joints[0]
 		for item in obj_list:
-			if head.posx == item.posx and head.posy == item.posy:
-				print("Snake <isInCollisionWith>", item.posx, item.posy)
+			# if head.posx == item.posx and head.posy == item.posy:
+			if head == item:
+				print("Snake <isInCollisionWith>", item)
 				return True
 		return False
 
