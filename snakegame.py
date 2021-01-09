@@ -24,10 +24,14 @@ class SnakeGame:
 	Performs snake game. It counts snake length and game time.
 	Returns a tuple (snake_length, game_time).
 	"""
-	def __init__(self, mode):
+	def __init__(self, mode, screenSize_x, screenSize_y, fieldSize_x, fieldSize_y):
 		self.mode = mode
+		self.screenSizeX = screenSize_x
+		self.screenSizeY = screenSize_y
+		self.fieldSizeX = fieldSize_x
+		self.fieldSizeY = fieldSize_y
 		if self.mode == "graphical":
-			self.screen = Graphics(800, 800, 16, 16)	# for some reason size 800x800 - 15x15 is displayed not properly, IDK...
+			self.screen = Graphics(self.screenSizeX, self.screenSizeY, self.fieldSizeX, self.fieldSizeY)
 		self.running = True
 
 		# keyboard input variables
@@ -99,7 +103,7 @@ class SnakeGame:
 		fruits = []
 		walls = []
 		for _ in range(fruits_no):
-			fruits.append(Joint(random.randrange(16), random.randrange(16)))
+			fruits.append(Joint(random.randrange(self.fieldSizeX), random.randrange(self.fieldSizeY)))
 		speed = init_speed
 
 		period = 1 / speed
