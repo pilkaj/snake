@@ -10,50 +10,13 @@ v0.1 - initial version
 """
 
 from Graphics.graphics import Graphics	#visualisation of the game
+from Logic.directions import Directions
+from Logic.joint import Joint
+from Logic.snake import Snake
 import time
 import random
-
-class Joint:
-	"""
-	Joint class
-	"""
-	def __init__(self, x, y):
-		self.posx = x
-		self.posy = y
-
-class Snake:
-	"""
-	Snake class
-	"""
-	def __init__(self, length, x, y):
-		self.length = length
-		self.joints = []
-
-	def updateSnakePosition(self):
-		print("<updateSnakePosition>")
-		for joint in self.joints:
-			joint.posx += 1
-		
-	def updatejoints(self, newjoint):
-		"""
-		Goes through joints list and updates its joints
-		"""
-		print("<updatejoints> ToDo")
-		if not self.isjointdistancevalid(self.joints[0], newjoint):
-			# print("updatejoints: New position is not valid. Current x, y = %d, %d. New x, y = %d, %d.", joints[0].x, joints[0].y, x, y)
-			return False
-		# for joint in self.joints:
-		# 	pass
-			
-	def isjointdistancevalid(self, jointa, jointb):
-		print("<isjointdistancevalid>")
-		# if self.jointdistance(jointa, jointb) == 1.0:
-		# 	return True
-		return False
-		
-	def jointdistance(self, jointa, jointb):
-		print("<jointdistance> ToDo")
-		return 0.0
+import queue
+from pynput import keyboard
 
 class SnakeGame:
 	""" 
@@ -64,9 +27,44 @@ class SnakeGame:
 	def __init__(self, mode):
 		self.mode = mode
 		if self.mode == "graphical":
-			self.screen = Graphics(800, 800, 16, 16)	#for some reason size 800x800 - 15x15 is displayed not properly, IDK...
+			self.screen = Graphics(800, 800, 16, 16)	# for some reason size 800x800 - 15x15 is displayed not properly, IDK...
 		self.running = True
+
+		# keyboard input variables
+		self.playerInputsSize = 2	# max size of queue which stores player input
+		self.playerInputsQueue = queue.Queue(self.playerInputsSize)	# FIFO queue
+		self.keyDown = {keyboard.Key.up: False, keyboard.Key.down: False, keyboard.Key.right: False, keyboard.Key.left: False}	# state of key - true = key is pressed down, false = key is released
+		self.lastRecordedInput = None
+		# Listener thread to catch key strokes
+		listener = keyboard.Listener(on_press=self.key_press, on_release=self.key_release)
+		listener.start()
 		
+	def key_press(self, key):
+		try:
+			if key != self.lastRecordedInput and not self.keyDown[key] and not self.playerInputsQueue.full():	# if key is different than last one and was pressed for the first time and queue is not full
+				self.keyDown[key] = True
+				self.lastRecordedInput = key
+				# add enum into playerInputsQueue
+				self.addToPlayerInputs(key)
+		except:
+			print("key", key, "is not being recorded")
+			
+	def key_release(self, key):
+		self.keyDown[key] = False
+		# print("Key released", key)
+
+	def addToPlayerInputs(self, key):
+		direction = None
+		if key == keyboard.Key.up:
+			direction = Directions.UP
+		elif key == keyboard.Key.down:
+			direction = Directions.DOWN
+		elif key == keyboard.Key.right:
+			direction = Directions.RIGHT
+		elif key == keyboard.Key.left:
+			direction = Directions.LEFT
+		if direction is not None:
+			self.playerInputsQueue.put(direction)
 
 	def playgame(self):
 		"""
@@ -75,20 +73,19 @@ class SnakeGame:
 		"""
 
 		initial_length = 3
-		initial_speed = 3		
+		initial_speed = 3
 		fruits_amount = 2
 
 		(total_length, total_time) = self.rungame(initial_length, initial_speed, fruits_amount)
 
 		return (total_length, total_time)
 
-	def getPlayerInput(self):
-		# temporarily added some value. TODO: work on this
-		return 1
+	def getPlayerLastInput(self):
+		if not self.playerInputsQueue.empty():
+			return self.playerInputsQueue.get()
+		else:
+			return None
 
-	def applyPlayerInput(self, input):
-		print("<applyPlayerInput>")
-		# TODO: work on this
 	
 	def rungame(self, init_length, init_speed, fruits_no):
 		"""
@@ -96,24 +93,24 @@ class SnakeGame:
 		"""
 		print("Runing new game.")
 
-		# Samples only
-		self.snakeSample = Snake(3, 500, 500)
-		self.fruits = []
-		self.snakeSample.joints = [Joint(5,8), Joint(4,8), Joint(3,8)]
-		for i in range(fruits_no):
-			self.fruits.append(Joint(random.randrange(16), random.randrange(16)))
+		# Game init
+		snake = Snake(3, 500, 500)
+		snake.joints = [Joint(5,8), Joint(4,8), Joint(3,8)]
+		fruits = []
+		for _ in range(fruits_no):
+			fruits.append(Joint(random.randrange(16), random.randrange(16)))
 		speed = init_speed
 
 		while self.running:
 			period = 1 / speed
-			time_stamp = time.monotonic()
-			while time.monotonic() - time_stamp < period:
-				playerInput = self.getPlayerInput()
+			time.sleep(period)
 
-			self.applyPlayerInput(playerInput)
-			self.snakeSample.updateSnakePosition()
-			self.running = self.screen.drawScreen(self.snakeSample, self.fruits)
-
+			key = self.getPlayerLastInput()
+			if key != None:
+				snake.applyPlayerInput(key)
+				
+			snake.updateSnakePosition()
+			self.running = self.screen.drawScreen(snake, fruits)
 		
 		print("Game finished.")
 		
