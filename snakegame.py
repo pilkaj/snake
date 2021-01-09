@@ -102,22 +102,26 @@ class SnakeGame:
 			fruits.append(Joint(random.randrange(16), random.randrange(16)))
 		speed = init_speed
 
+		period = 1 / speed
+		
+		time_stamp = time.monotonic()
+
 		while self.running:
-			period = 1 / speed
-			time_stamp = time.monotonic()
-			while time.monotonic() - time_stamp < period:
-				pass
 
-			key = self.getPlayerLastInput()
-			if key != None:
-				snake.applyPlayerInput(key)
-				
-			snake.updateSnakePosition()
+			if time.monotonic() - time_stamp > period:
+					
+				time_stamp = time.monotonic()
 
-			if snake.isInCollisionWith(snake.joints[1:]) or snake.isInCollisionWith(walls):
-				self.running = False
-			elif snake.isInCollisionWith(fruits):
-				snake.enlarge()
+				key = self.getPlayerLastInput()
+				if key != None:
+					snake.applyPlayerInput(key)
+					
+				snake.updateSnakePosition()
+
+				if snake.isInCollisionWith(snake.joints[1:]) or snake.isInCollisionWith(walls):
+					self.running = False
+				elif snake.isInCollisionWith(fruits):
+					snake.enlarge()
 
 			self.running = self.screen.drawScreen(snake, fruits)
 		
