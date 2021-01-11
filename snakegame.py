@@ -104,12 +104,8 @@ class SnakeGame:
 		for _ in range(fruits_no):
 			fruits.append(Joint(random.randrange(self.fieldSizeX), random.randrange(self.fieldSizeY)))
 		walls = []
-		for i in range(self.fieldSizeX):
-			walls.append(Joint(i, 0))
-			walls.append(Joint(i, self.fieldSizeY - 1))
-		for i in range(self.fieldSizeY - 2):
-			walls.append(Joint(0, i + 1))
-			walls.append(Joint(self.fieldSizeX - 1, i + 1))
+		#walls = [Joint(3,3), Joint(4,3), Joint(5,3)]
+		
 		speed = init_speed
 
 		period = 1 / speed
@@ -128,7 +124,7 @@ class SnakeGame:
 					
 				snake.updateSnakePosition()
 
-				if snake.isInCollisionWith(snake.joints[1:]) or snake.isInCollisionWith(walls):
+				if snake.isInCollisionWith(snake.joints[1:]) or snake.isInCollisionWith(walls) or snake.borderCollision(self.fieldSizeX, self.fieldSizeY):
 					self.running = False
 					break
 				elif snake.isInCollisionWith(fruits):

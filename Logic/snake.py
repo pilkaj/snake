@@ -55,5 +55,12 @@ class Snake:
 				return True
 		return False
 
+	def borderCollision(self, size_x, size_y):
+		head = self.joints[0]
+		if head.posx < 0 or head.posx >= size_x or head.posy < 0 or head.posy >= size_y:
+			return True
+
+		return False
+
 	def enlarge(self):
 		self.joints.append(self.lastTail)
