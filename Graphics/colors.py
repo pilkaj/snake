@@ -6,3 +6,4 @@ class Colors(Enum):
     SNAKE_HEAD = (200,0,0)
     SNAKE_BODY = (0,0,200)
     FRUIT = (120,34,109)
+    WALL = (100, 100, 100)

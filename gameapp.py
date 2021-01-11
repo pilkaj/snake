@@ -8,7 +8,7 @@ def main():
   print("Let's try to write a snake game")
 
   ''' play snake '''
-  mygame = SnakeGame("graphical")
+  mygame = SnakeGame("graphical", 800, 800, 16, 16)
   (snake_length, game_time) = mygame.playgame()
 
   print("You played a snake game.")
