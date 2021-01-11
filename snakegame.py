@@ -32,7 +32,6 @@ class SnakeGame:
 		self.fieldSizeY = fieldSize_y
 		if self.mode == "graphical":
 			self.screen = Graphics(self.screenSizeX, self.screenSizeY, self.fieldSizeX, self.fieldSizeY)
-		self.running = True
 
 		# keyboard input variables
 		self.playerInputsSize = 2	# max size of queue which stores player input
@@ -105,6 +104,7 @@ class SnakeGame:
 			fruits.append(Joint(random.randrange(self.fieldSizeX), random.randrange(self.fieldSizeY)))
 		walls = []
 		#walls = [Joint(3,3), Joint(4,3), Joint(5,3)]
+		running = True
 		
 		speed = init_speed
 
@@ -112,7 +112,7 @@ class SnakeGame:
 		
 		time_stamp = time.monotonic()
 
-		while self.running:
+		while running:
 
 			if time.monotonic() - time_stamp > period:
 					
@@ -125,12 +125,12 @@ class SnakeGame:
 				snake.updateSnakePosition()
 
 				if snake.isInCollisionWith(snake.joints[1:]) or snake.isInCollisionWith(walls) or snake.borderCollision(self.fieldSizeX, self.fieldSizeY):
-					self.running = False
+					running = False
 					break
 				elif snake.isInCollisionWith(fruits):
 					snake.enlarge()
 
-			self.running = self.screen.drawScreen(snake, fruits, walls)
+			running = self.screen.drawScreen(snake, fruits, walls)
 		
 		print("Game finished.")
 		
